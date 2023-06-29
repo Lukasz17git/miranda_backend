@@ -3,6 +3,7 @@ import { nanoid } from "nanoid";
 import handleError from "../Errors/handleError";
 
 
+// añadir para r
 export const getBookingsController = async (req: Request, res: Response) => {
    try {
 

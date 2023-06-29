@@ -6,7 +6,6 @@ export type GuestType = {
    profileUrl: string,
 }
 
-
 export type BookingType = {
    id: string, // he movido el id del guest a aqui, tiene más sentido
    orderDate: number,
