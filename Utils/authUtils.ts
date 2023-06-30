@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import generateError from '../Errors/generateError'
 import { Response } from 'express'
+import { authCookieName } from '../Controllers/authController'
 
 const sessionSecret = process.env.JWT_SECRET_SESSION as string
 
@@ -11,7 +12,7 @@ export const createJWTandCookie = (userID: string) => {
    const expireTime = 60 * 60 * 24 * 7 //seconds
    const maxAge = expireTime * 1000 //milliseconds
    const jwtToken = jwt.sign({ userID }, sessionSecret, { expiresIn: expireTime })
-   const cookieOptions = { httpOnly: true, maxAge, signed: true }
+   const cookieOptions = { httpOnly: true, maxAge }
    const expireDate = Date.now() + maxAge
    return { jwtToken, cookieOptions, expireDate }
 }
@@ -32,6 +33,5 @@ export const verifyJWT = (token: string) => new Promise((resolve, reject) => {
 })
 
 export const removeAllCookies = (res: Response) => {
-   // res.cookie(process.env.JWT_SECRET_SESSION, '', { maxAge: 0 })
-   return res
+   res.cookie(authCookieName, '', { maxAge: 0 })
 }

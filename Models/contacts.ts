@@ -1,6 +1,6 @@
 
 
-export type CommentType = {
+export type ContactType = {
    id: string,
    sentAt: number, //or better date?
    viewed: boolean,

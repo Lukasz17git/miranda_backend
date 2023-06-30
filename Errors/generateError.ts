@@ -1,6 +1,6 @@
-type ErrorLocation = 'unknown' | 'app' | 'register' | 'login'
-type ErrorField = 'unknown' | 'password' | 'session'
-type ErrorType = 'unknown' | 'invalid' | 'expired'
+type ErrorLocation = 'unknown' | 'app' | 'register' | 'login' | 'database'
+type ErrorField = 'unknown' | 'password' | 'session' | 'fields' | 'user' | 'room' | 'contact' | 'booking'
+type ErrorType = 'unknown' | 'invalid' | 'expired' | 'nonexistent'
 type ErrorStatus = 400
 
 const generateError = (
