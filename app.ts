@@ -7,6 +7,7 @@ import roomsRouter from './Routes/roomsRouter'
 import contactsRouter from './Routes/contactsRouter'
 import bookingsRouter from './Routes/bookingsRouter'
 import authorizationMiddleware from './Middlewares/auth'
+import infoRouter from './Routes/infoRouter'
 
 //INITIALIZING THE APP
 const app: Express = express()
@@ -16,9 +17,8 @@ app.use(express.json({ limit: '50kb' }));
 app.use(cookieParser())
 
 // PUBLIC ROUTES
-app.get('/', (req, res) => res.send('Express + Typescript'))
-
 app.use(authRouter)
+app.use('/info', infoRouter)
 
 // PROTECTED ROUTES
 app.use(authorizationMiddleware)
