@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 dotenv.config()
 import jwt from 'jsonwebtoken'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import generateError from '../Errors/generateError'
 import { Response } from 'express'
 import { authCookieName } from '../Controllers/authController'

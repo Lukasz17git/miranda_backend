@@ -6,11 +6,16 @@ import { RoomType } from '../Models/rooms'
 import { BookingType } from '../Models/bookings'
 
 
-const folderPath = path.join(__dirname, '../', 'jsonData')
-if (!fs.existsSync(folderPath)) fs.mkdirSync(folderPath)
+const folderPath = path.join(__dirname, '/JsonData')
+
+const dbData: Record<string, any> = {}
 
 
 const retrieveDataLocally = <T>(fileName: string): T[] => {
+
+   if (dbData[fileName]) {
+      return JSON.parse(dbData[fileName])
+   }
 
    const fullFilePath = path.join(folderPath, `${fileName}.json`)
    if (!fs.existsSync(fullFilePath)) return []
@@ -24,9 +29,11 @@ const retrieveDataLocally = <T>(fileName: string): T[] => {
 const saveDataLocally = (fileName: string, data: any) => {
    const jsonData = JSON.stringify(data)
 
-   const fullFilePath = path.join(folderPath, `${fileName}.json`)
+   dbData[fileName] = jsonData
 
-   fs.writeFileSync(fullFilePath, jsonData)
+   // const fullFilePath = path.join(folderPath, `${fileName}.json`)
+
+   // fs.writeFileSync(fullFilePath, jsonData)
 }
 
 const usersFileName = 'users'

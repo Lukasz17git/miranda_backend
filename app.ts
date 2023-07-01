@@ -1,4 +1,4 @@
-import express, { Express } from 'express'
+import express, { Express, Response } from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import authRouter from './Routes/authRouter'
@@ -17,8 +17,13 @@ app.use(express.json({ limit: '50kb' }));
 app.use(cookieParser())
 
 // PUBLIC ROUTES
+app.get('/', (_, res: Response) => {
+   res.send('Hello, World!');
+});
+
 app.use(authRouter)
 app.use('/info', infoRouter)
+
 
 // PROTECTED ROUTES
 app.use(authorizationMiddleware)

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import { comparePasswords, createJWTandCookie, removeAllCookies } from '../Utils/authUtils'
 import handleError from '../Errors/handleError'
 import { UserType } from '../Models/users'
