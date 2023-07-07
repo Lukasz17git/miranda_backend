@@ -7,7 +7,7 @@ export const createRoomsTable = async () => {
    try {
       await queryDB('db_initialization', `
       CREATE TABLE IF NOT EXISTS rooms (
-        id VARCHAR(255) PRIMARY KEY,
+        id VARCHAR(36) PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
         type ENUM('single', 'double', 'superior', 'suite') NOT NULL,
         number INT NOT NULL,

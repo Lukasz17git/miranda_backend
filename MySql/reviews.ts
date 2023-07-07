@@ -7,7 +7,7 @@ export const createReviewsTable = async () => {
    try {
       await queryDB('db_initialization', `
       CREATE TABLE IF NOT EXISTS reviews (
-        id VARCHAR(255) PRIMARY KEY,
+        id VARCHAR(36) PRIMARY KEY,
         sentAt VARCHAR(29) NOT NULL,
         viewed BOOLEAN DEFAULT false,
         archived BOOLEAN DEFAULT false,

@@ -7,8 +7,8 @@ export const createBookingsTable = async () => {
    try {
       await queryDB('db_initialization', `
       CREATE TABLE IF NOT EXISTS bookings (
-        id VARCHAR(255) PRIMARY KEY,
-        roomId VARCHAR(255) NOT NULL,
+        id VARCHAR(36) PRIMARY KEY,
+        roomId VARCHAR(36) NOT NULL,
         orderDate VARCHAR(29) NOT NULL,
         inDate VARCHAR(29),
         outDate VARCHAR(29),
