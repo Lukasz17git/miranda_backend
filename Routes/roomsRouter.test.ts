@@ -7,8 +7,8 @@ const endpoint = '/rooms'
 
 const room: Omit<RoomType, 'id'> = {
    name: "Deluxe Room",
-   roomType: "double",
-   roomNumber: 101,
+   type: "double",
+   number: 101,
    price: 200,
    discount: 20,
    description: "A spacious and luxurious room.",

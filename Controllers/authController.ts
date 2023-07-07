@@ -3,28 +3,19 @@ import bcrypt from 'bcryptjs'
 import { comparePasswords, createJWTandCookie, removeAllCookies } from '../Utils/authUtils'
 import handleError from '../Errors/handleError'
 import { UserType } from '../Models/users'
-import generateError from '../Errors/generateError'
-import { getUsers, saveUsers } from '../Utils/localSave'
 import { v4 as nanoid } from 'uuid'
+import { createUserInDB, getUserByEmailInDB } from '../MySql/users'
+import { validateLoginUser, validateRegisterUser } from '../Validators/users'
 
 export const authCookieName = 'auth'
 
 export const registerController = async (req: Request, res: Response) => {
    try {
-      const { email, name, lastname, password } = req.body
-      //validate fields
-      if (!email || !name || !lastname || !password) throw generateError('register', 'fields', 'invalid')
-      //end of validation
-      const encryptedPassword = await bcrypt.hash(password, 10)
-      //save user in db and retrieve his id
-      const newUser: UserType = { id: nanoid(), name, lastname, email, password: encryptedPassword }
-
-      //local save
-      const users = getUsers()
-      users.push(newUser)
-      saveUsers(users)
-      //done
-
+      const data = req.body
+      validateRegisterUser(data)
+      const encryptedPassword = await bcrypt.hash(data.password, 10)
+      const newUser: UserType = { ...data, id: nanoid(), password: encryptedPassword }
+      await createUserInDB(newUser)
       const { jwtToken, cookieOptions } = createJWTandCookie(newUser.id)
       removeAllCookies(res)
       res.cookie(authCookieName, jwtToken, cookieOptions).send(newUser)
@@ -37,15 +28,10 @@ export const registerController = async (req: Request, res: Response) => {
 
 export const loginController = async (req: Request, res: Response) => {
    try {
-      const { email, password } = req.body
-      //validate fields
-      if (!email || !password) throw generateError('login', 'fields', 'invalid')
-      //retrieve user data from db using email
-      const users = getUsers()
-      const dbUser = users.find(user => user.email === email)
-      if (!dbUser) throw generateError('login', 'user', 'nonexistent')
-      await comparePasswords(password, dbUser.password)
-
+      const data = req.body
+      validateLoginUser(data)
+      const dbUser = await getUserByEmailInDB(data.email)
+      await comparePasswords(data.password, dbUser.password)
       const { jwtToken, cookieOptions } = createJWTandCookie(dbUser.id)
       removeAllCookies(res)
       res.cookie(authCookieName, jwtToken, cookieOptions).send(dbUser)

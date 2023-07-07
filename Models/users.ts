@@ -1,26 +1,18 @@
 
-// export type UserStateType = 'active' | 'inactive' | 'vacation'
 
-// export type EmployeeJobsType = 'receptionist' | 'rooms_service'
-
-// export const initialEmployeeState = {
-//    name: '',
-//    lastname: '',
-//    email: '',
-//    phone: '',
-//    dischargeDate: '2023-06-09',
-//    description: '',
-//    state: 'active' as UserStateType,
-//    job: 'receptionist' as EmployeeJobsType,
-//    profileUrl: ''
-// }
-
-// export type EmployeeType = typeof initialEmployeeState
+export type UserStatusType = 'active' | 'inactive' | 'vacation'
+export type UsersJobType = 'manager' | 'receptionist' | 'roomsService'
 
 export type UserType = {
    id: string,
    name: string,
    lastname: string,
    email: string,
-   password: string
+   password: string,
+   phone?: string,
+   description?: string,
+   status: UserStatusType,
+   job: UsersJobType,
+   dischargeDate?: string,
+   profileImg?: string,
 }

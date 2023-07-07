@@ -1,13 +1,12 @@
 
 export type BookingType = {
    id: string,
-   orderDate: number,
-   inDate: number,
-   outDate: number,
+   roomId: string,
+   orderDate: string,
+   inDate: string,
+   outDate: string,
    specialRequest: string,
-   guest: {
-      name: string,
-      lastname: string,
-      profileUrl: string,
-   },
+   guestName: string,
+   guestLastname: string,
+   guestProfileUrl: string,
 }

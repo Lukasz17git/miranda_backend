@@ -1,22 +1,20 @@
 import request from 'supertest'
 import app from '../app'
-import { ContactType } from "../Models/contacts";
+import { ReviewType } from "../Models/reviews";
 import { createAuthTestingSessionCookie } from "../Tests/utils";
 
-const endpoint = '/contacts'
+const endpoint = '/reviews'
 
-const contact: Omit<ContactType, 'id'> = {
-   sentAt: 1672492800000, // March 1, 2023 (in milliseconds)
+const contact: Omit<ReviewType, 'id'> = {
+   sentAt: new Date(1672492800000).toISOString(), // March 1, 2023 (in milliseconds)
    viewed: false,
    archived: false,
    subject: "Subject A",
    comment: "This is a sample comment.",
-   person: {
-      name: "Alice",
-      lastname: "Smith",
-      email: "alice@example.com",
-      phone: "+1234567890",
-   },
+   personName: "Alice",
+   personLastname: "Smith",
+   personEmail: "alice@example.com",
+   personPhone: "+1234567890",
 };
 
 

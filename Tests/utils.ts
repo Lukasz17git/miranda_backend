@@ -1,8 +1,9 @@
 import request from 'supertest'
 import app from '../app'
 
-export const createAuthTestingSessionCookie = async (email = 'test@test.test', password = 'test') => {
+export const createAuthTestingSessionCookie = async (email = 'test@test.com', password = 'test') => {
    let loginRes = await request(app).post('/login').send({ email, password })
+   console.log('loginRes.status', loginRes.status)
    if (loginRes.status !== 200) {
       await request(app).post('/register').send({ email, password, name: `Test`, lastname: `Test` })
       loginRes = await request(app).post('/login').send({ email, password })

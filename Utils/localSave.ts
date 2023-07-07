@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import { UserType } from '../Models/users'
-import { ContactType } from '../Models/contacts'
+import { ReviewType } from '../Models/reviews'
 import { RoomType } from '../Models/rooms'
 import { BookingType } from '../Models/bookings'
 
@@ -49,5 +49,5 @@ export const getBookings = () => retrieveDataLocally<BookingType>(bookingsFileNa
 export const saveBookings = (updatedBookings: BookingType[]) => saveDataLocally(bookingsFileName, updatedBookings)
 
 const contactsFileName = 'contacts'
-export const getContacts = () => retrieveDataLocally<ContactType>(contactsFileName)
-export const saveContacts = (updatedContacts: ContactType[]) => saveDataLocally(contactsFileName, updatedContacts)
+export const getContacts = () => retrieveDataLocally<ReviewType>(contactsFileName)
+export const saveContacts = (updatedContacts: ReviewType[]) => saveDataLocally(contactsFileName, updatedContacts)

@@ -6,15 +6,14 @@ import { BookingType } from '../Models/bookings'
 const endpoint = '/bookings'
 
 const booking: Omit<BookingType, 'id'> = {
-   orderDate: 1625097600000,
-   inDate: 1651564800000,
-   outDate: 1654156800000,
+   roomId: '1',
+   orderDate: new Date().toISOString(),
+   inDate: new Date(1651564800000).toISOString(),
+   outDate: new Date(1654156800000).toISOString(),
    specialRequest: "Non-smoking room",
-   guest: {
-      name: "John",
-      lastname: "Doe",
-      profileUrl: "https://example.com/profile/johndoe",
-   },
+   guestName: "John",
+   guestLastname: "Doe",
+   guestProfileUrl: "https://example.com/profile/johndoe",
 };
 
 
