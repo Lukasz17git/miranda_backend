@@ -4,9 +4,9 @@ import validateData, { GeneralValidatorType } from '../Utils/validator';
 
 const bookingCreateSchema = Joi.object<Omit<BookingType, 'id'>>({
    roomId: Joi.number().required(),
-   orderDate: Joi.number().required(),
-   inDate: Joi.number().required(),
-   outDate: Joi.number().required(),
+   orderDate:  Joi.string().isoDate().required(),
+   inDate:  Joi.string().isoDate().required(),
+   outDate:  Joi.string().isoDate().required(),
    specialRequest: Joi.string().required(),
    guestName: Joi.string().required(),
    guestLastname: Joi.string().required(),
@@ -15,9 +15,9 @@ const bookingCreateSchema = Joi.object<Omit<BookingType, 'id'>>({
 
 const bookingUpdateSchema = Joi.object<Omit<BookingType, 'id'>>({
    roomId: Joi.number(),
-   orderDate: Joi.number(),
-   inDate: Joi.number(),
-   outDate: Joi.number(),
+   orderDate:  Joi.string().isoDate(),
+   inDate:  Joi.string().isoDate(),
+   outDate:  Joi.string().isoDate(),
    specialRequest: Joi.string(),
    guestName: Joi.string(),
    guestLastname: Joi.string(),

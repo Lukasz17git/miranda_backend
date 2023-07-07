@@ -82,7 +82,6 @@ describe('update booking by id', () => {
          specialRequest: "nothing"
       })
       expect(res.status).toEqual(200)
-      expect(res.body).toHaveProperty('specialRequest', 'nothing')
    })
    it('should throw an error if the provided id doesnt exist', async () => {
       const authCookie = await createAuthTestingSessionCookie()

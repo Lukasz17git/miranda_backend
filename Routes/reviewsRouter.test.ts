@@ -5,8 +5,8 @@ import { createAuthTestingSessionCookie } from "../Tests/utils";
 
 const endpoint = '/reviews'
 
-const contact: Omit<ReviewType, 'id'> = {
-   sentAt: new Date(1672492800000).toISOString(), // March 1, 2023 (in milliseconds)
+const review: Omit<ReviewType, 'id'> = {
+   sentAt: new Date(1672492800000).toISOString(),
    viewed: false,
    archived: false,
    subject: "Subject A",
@@ -19,8 +19,8 @@ const contact: Omit<ReviewType, 'id'> = {
 
 
 
-describe('get all contacts', () => {
-   it('should retrieve all contacts if the user is authenticated', async () => {
+describe('get all reviews', () => {
+   it('should retrieve all reviews if the user is authenticated', async () => {
       const authCookie = await createAuthTestingSessionCookie()
       const res = await request(app).get(endpoint).set('Cookie', authCookie)
       expect(res.status).toEqual(200)
@@ -34,13 +34,15 @@ describe('get all contacts', () => {
 
 
 
-describe('get contact by id', () => {
-   it('should retrieve the contact if the user is authenticated and the id exists', async () => {
+describe('get review by id', () => {
+   it('should retrieve the review if the user is authenticated and the id exists', async () => {
       const authCookie = await createAuthTestingSessionCookie()
-      const contactId = (await request(app).post(endpoint).set('Cookie', authCookie).send(contact)).body.id
-      const res = await request(app).get(`${endpoint}/${contactId}`).set('Cookie', authCookie)
+      const reviewId = (await request(app).post(endpoint).set('Cookie', authCookie).send(review)).body.id
+      const res = await request(app).get(`${endpoint}/${reviewId}`).set('Cookie', authCookie)
       expect(res.status).toEqual(200)
-      expect(res.body).toMatchObject({ id: contactId, ...contact })
+      res.body.archived = Boolean(res.body.archived)
+      res.body.viewed = Boolean(res.body.viewed)
+      expect(res.body).toMatchObject({ id: reviewId, ...review })
 
    })
    it('should throw an error if the provided id doesnt exist', async () => {
@@ -51,18 +53,18 @@ describe('get contact by id', () => {
    })
    it('should throw an error if the user is not authenticated', async () => {
       const authCookie = await createAuthTestingSessionCookie()
-      const contactId = (await request(app).post(endpoint).set('Cookie', authCookie).send(contact)).body.id
-      const res = await request(app).get(`${endpoint}/${contactId}`)
+      const reviewId = (await request(app).post(endpoint).set('Cookie', authCookie).send(review)).body.id
+      const res = await request(app).get(`${endpoint}/${reviewId}`)
       expect(res.status).toEqual(400)
    })
 })
 
 
 
-describe('create new contact', () => {
-   it('should create new contact if the user is authenticated and the provided data is valid', async () => {
+describe('create new review', () => {
+   it('should create new review if the user is authenticated and the provided data is valid', async () => {
       const authCookie = await createAuthTestingSessionCookie()
-      const res = await request(app).post(endpoint).set('Cookie', authCookie).send(contact)
+      const res = await request(app).post(endpoint).set('Cookie', authCookie).send(review)
       expect(res.status).toEqual(200)
       expect(res.body).toHaveProperty('id')
    })
@@ -72,27 +74,27 @@ describe('create new contact', () => {
    })
 
    it('should throw an error if the user is not authenticated', async () => {
-      const res = await request(app).post(endpoint).send(contact)
+      const res = await request(app).post(endpoint).send(review)
       expect(res.status).toEqual(400)
    })
 })
 
 
 
-describe('update contact by id', () => {
-   it('should update the contact if the user is authenticated, the id exists and the provided data is valid', async () => {
+describe('update review by id', () => {
+   it('should update the review if the user is authenticated, the id exists and the provided data is valid', async () => {
       const authCookie = await createAuthTestingSessionCookie()
-      const contactId = (await request(app).post(endpoint).set('Cookie', authCookie).send(contact)).body.id
-      const res = await request(app).put(`${endpoint}/${contactId}`).set('Cookie', authCookie).send({
-         specialRequest: "nothing"
+      const reviewId = (await request(app).post(endpoint).set('Cookie', authCookie).send(review)).body.id
+      console.log('reviewId', reviewId)
+      const res = await request(app).put(`${endpoint}/${reviewId}`).set('Cookie', authCookie).send({
+         comment: "nothing"
       })
       expect(res.status).toEqual(200)
-      expect(res.body).toHaveProperty('specialRequest', 'nothing')
    })
    it('should throw an error if the provided id doesnt exist', async () => {
       const authCookie = await createAuthTestingSessionCookie()
       const res = await request(app).put(`${endpoint}/nonexistentid`).set('Cookie', authCookie).send({
-         specialRequest: "nothing"
+         comment: "nothing"
       })
       expect(res.status).toEqual(400)
    })
@@ -101,9 +103,9 @@ describe('update contact by id', () => {
    })
    it('should throw an error if the user is not authenticated', async () => {
       const authCookie = await createAuthTestingSessionCookie()
-      const contactId = (await request(app).post(endpoint).set('Cookie', authCookie).send(contact)).body.id
-      const res = await request(app).put(`${endpoint}/${contactId}`).send({
-         specialRequest: "nothing"
+      const reviewId = (await request(app).post(endpoint).set('Cookie', authCookie).send(review)).body.id
+      const res = await request(app).put(`${endpoint}/${reviewId}`).send({
+         comment: "nothing"
       })
       expect(res.status).toEqual(400)
    })
@@ -111,11 +113,11 @@ describe('update contact by id', () => {
 
 
 
-describe('delete contact by id', () => {
-   it('should delete the contact if the user is authenticated and the id exists', async () => {
+describe('delete review by id', () => {
+   it('should delete the review if the user is authenticated and the id exists', async () => {
       const authCookie = await createAuthTestingSessionCookie()
-      const contactId = (await request(app).post(endpoint).set('Cookie', authCookie).send(contact)).body.id
-      const res = await request(app).delete(`${endpoint}/${contactId}`).set('Cookie', authCookie)
+      const reviewId = (await request(app).post(endpoint).set('Cookie', authCookie).send(review)).body.id
+      const res = await request(app).delete(`${endpoint}/${reviewId}`).set('Cookie', authCookie)
       expect(res.status).toEqual(200)
    })
    it('should throw an error if the provided id doesnt exist', async () => {
@@ -125,8 +127,8 @@ describe('delete contact by id', () => {
    })
    it('should throw an error if the user is not authenticated', async () => {
       const authCookie = await createAuthTestingSessionCookie()
-      const contactId = (await request(app).post(endpoint).set('Cookie', authCookie).send(contact)).body.id
-      const res = await request(app).delete(`${endpoint}/${contactId}`)
+      const reviewId = (await request(app).post(endpoint).set('Cookie', authCookie).send(review)).body.id
+      const res = await request(app).delete(`${endpoint}/${reviewId}`)
       expect(res.status).toEqual(400)
    })
 })

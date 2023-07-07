@@ -5,7 +5,7 @@ import validateData, { GeneralValidatorType } from '../Utils/validator';
 const reviewsSubjects: ReviewsSubjects[] = ['Subject A', 'Subject B', 'Subject C']
 
 const reviewCreateSchema = Joi.object<Omit<ReviewType, 'id'>>({
-   sentAt: Joi.number().required(),
+   sentAt:  Joi.string().isoDate().required(),
    viewed: Joi.boolean().required(),
    archived: Joi.boolean().required(),
    subject: Joi.string().valid(...reviewsSubjects).required(),
@@ -17,7 +17,7 @@ const reviewCreateSchema = Joi.object<Omit<ReviewType, 'id'>>({
 });
 
 const reviewUpdateSchema = Joi.object<Omit<ReviewType, 'id'>>({
-   sentAt: Joi.number(),
+   sentAt:  Joi.string().isoDate(),
    viewed: Joi.boolean(),
    archived: Joi.boolean(),
    subject: Joi.string().valid(...reviewsSubjects),
