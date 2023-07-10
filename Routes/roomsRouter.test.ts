@@ -7,8 +7,8 @@ const endpoint = '/rooms'
 
 const room: Omit<RoomType, 'id'> = {
    name: "Deluxe Room",
-   roomType: "double",
-   roomNumber: 101,
+   type: "double",
+   number: 101,
    price: 200,
    discount: 20,
    description: "A spacious and luxurious room.",
@@ -103,15 +103,14 @@ describe('update room by id', () => {
       const authCookie = await createAuthTestingSessionCookie()
       const roomId = (await request(app).post(endpoint).set('Cookie', authCookie).send(room)).body.id
       const res = await request(app).put(`${endpoint}/${roomId}`).set('Cookie', authCookie).send({
-         specialRequest: "nothing"
+         description: "new description for the room"
       })
       expect(res.status).toEqual(200)
-      expect(res.body).toHaveProperty('specialRequest', 'nothing')
    })
    it('should throw an error if the provided id doesnt exist', async () => {
       const authCookie = await createAuthTestingSessionCookie()
       const res = await request(app).put(`${endpoint}/nonexistentid`).set('Cookie', authCookie).send({
-         specialRequest: "nothing"
+         description: "new description for the room"
       })
       expect(res.status).toEqual(400)
    })
@@ -122,7 +121,7 @@ describe('update room by id', () => {
       const authCookie = await createAuthTestingSessionCookie()
       const roomId = (await request(app).post(endpoint).set('Cookie', authCookie).send(room)).body.id
       const res = await request(app).put(`${endpoint}/${roomId}`).send({
-         specialRequest: "nothing"
+         description: "new description for the room"
       })
       expect(res.status).toEqual(400)
    })

@@ -1,5 +1,5 @@
-type ErrorLocation = 'unknown' | 'app' | 'register' | 'login' | 'database'
-type ErrorField = 'unknown' | 'password' | 'session' | 'fields' | 'user' | 'room' | 'contact' | 'booking'
+export type ErrorLocation = 'unknown' | 'app' | 'register' | 'login' | 'database' | 'review' | 'booking' | 'room'
+export type ErrorField = 'unknown' | 'password' | 'session' | 'fields' | 'user' | 'room' | 'review' | 'booking' | 'db_initialization'
 type ErrorType = 'unknown' | 'invalid' | 'expired' | 'nonexistent'
 type ErrorStatus = 400
 
