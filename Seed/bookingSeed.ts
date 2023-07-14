@@ -7,8 +7,7 @@ const getRandomRoomId = (roomIds: string[]) => {
 };
 
 export const generateRandomBooking = (roomIds: string[]) => {
-   const randomBooking: BookingType = {
-      id: faker.string.uuid(),
+   const randomBooking: Omit<BookingType, '_id'> & { _id?: string } = {
       roomId: getRandomRoomId(roomIds),
       orderDate: faker.date.past().toISOString(),
       inDate: faker.date.past().toISOString(),

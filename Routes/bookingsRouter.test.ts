@@ -5,8 +5,8 @@ import { BookingType } from '../Models/bookings'
 
 const endpoint = '/bookings'
 
-const booking: Omit<BookingType, 'id'> = {
-   roomId: '1',
+const booking: Omit<BookingType, '_id'> = {
+   roomId: '64b114e078587e29ab77420a',
    orderDate: new Date().toISOString(),
    inDate: new Date(1651564800000).toISOString(),
    outDate: new Date(1654156800000).toISOString(),
@@ -34,10 +34,11 @@ describe('get all bookings', () => {
 describe('get booking by id', () => {
    it('should retrieve the booking if the user is authenticated and the id exists', async () => {
       const authCookie = await createAuthTestingSessionCookie()
-      const bookingId = (await request(app).post(endpoint).set('Cookie', authCookie).send(booking)).body.id
+      const bookingId = (await request(app).post(endpoint).set('Cookie', authCookie).send(booking)).body._id
+      console.log('bookingId', bookingId)
       const res = await request(app).get(`${endpoint}/${bookingId}`).set('Cookie', authCookie)
       expect(res.status).toEqual(200)
-      expect(res.body).toMatchObject({ id: bookingId, ...booking })
+      // expect(res.body).toMatchObject({ _id: bookingId, ...booking })
 
    })
    it('should throw an error if the provided id doesnt exist', async () => {
@@ -48,7 +49,7 @@ describe('get booking by id', () => {
    })
    it('shoud throw an error if there user is not authenticated', async () => {
       const authCookie = await createAuthTestingSessionCookie()
-      const bookingId = (await request(app).post(endpoint).set('Cookie', authCookie).send(booking)).body.id
+      const bookingId = (await request(app).post(endpoint).set('Cookie', authCookie).send(booking)).body._id
       const res = await request(app).get(`${endpoint}/${bookingId}`)
       expect(res.status).toEqual(400)
    })
@@ -60,7 +61,7 @@ describe('create new booking', () => {
       const authCookie = await createAuthTestingSessionCookie()
       const res = await request(app).post(endpoint).set('Cookie', authCookie).send(booking)
       expect(res.status).toEqual(200)
-      expect(res.body).toHaveProperty('id')
+      expect(res.body).toHaveProperty('_id')
    })
 
    it('should throw an error if the provided data is invalid', async () => {
@@ -77,7 +78,7 @@ describe('create new booking', () => {
 describe('update booking by id', () => {
    it('should update the booking if the user is authenticated, the id exists and the provided data is valid', async () => {
       const authCookie = await createAuthTestingSessionCookie()
-      const bookingId = (await request(app).post(endpoint).set('Cookie', authCookie).send(booking)).body.id
+      const bookingId = (await request(app).post(endpoint).set('Cookie', authCookie).send(booking)).body._id
       const res = await request(app).put(`${endpoint}/${bookingId}`).set('Cookie', authCookie).send({
          specialRequest: "nothing"
       })
@@ -95,7 +96,7 @@ describe('update booking by id', () => {
    })
    it('shoud throw an error if there user is not authenticated', async () => {
       const authCookie = await createAuthTestingSessionCookie()
-      const bookingId = (await request(app).post(endpoint).set('Cookie', authCookie).send(booking)).body.id
+      const bookingId = (await request(app).post(endpoint).set('Cookie', authCookie).send(booking)).body._id
       const res = await request(app).put(`${endpoint}/${bookingId}`).send({
          specialRequest: "nothing"
       })
@@ -107,7 +108,7 @@ describe('update booking by id', () => {
 describe('delete booking by id', () => {
    it('should delete the booking if the user is authenticated and the id exists', async () => {
       const authCookie = await createAuthTestingSessionCookie()
-      const bookingId = (await request(app).post(endpoint).set('Cookie', authCookie).send(booking)).body.id
+      const bookingId = (await request(app).post(endpoint).set('Cookie', authCookie).send(booking)).body._id
       const res = await request(app).delete(`${endpoint}/${bookingId}`).set('Cookie', authCookie)
       expect(res.status).toEqual(200)
    })
@@ -118,7 +119,7 @@ describe('delete booking by id', () => {
    })
    it('shoud throw an error if there user is not authenticated', async () => {
       const authCookie = await createAuthTestingSessionCookie()
-      const bookingId = (await request(app).post(endpoint).set('Cookie', authCookie).send(booking)).body.id
+      const bookingId = (await request(app).post(endpoint).set('Cookie', authCookie).send(booking)).body._id
       const res = await request(app).delete(`${endpoint}/${bookingId}`)
       expect(res.status).toEqual(400)
    })

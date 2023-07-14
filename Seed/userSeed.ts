@@ -14,11 +14,11 @@ const getRandomJob = () => {
    return jobs[randomIndex];
 }
 
-const generateRandomUser = () => {
+const generateRandomUser = (withId = false) => {
    const password = faker.internet.password()
    const encryptedPassword = bcrypt.hashSync(password, 10)
-   const user: UserType = {
-      id: faker.string.uuid(),
+   const user: Omit<UserType, '_id'> & { _id?: string } = {
+      ...withId && { _id: faker.string.uuid() },
       name: faker.person.firstName(),
       lastname: faker.person.lastName(),
       email: faker.internet.email(),

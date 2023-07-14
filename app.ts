@@ -8,7 +8,7 @@ import reviewsRouter from './Routes/reviewsRouter'
 import bookingsRouter from './Routes/bookingsRouter'
 import authorizationMiddleware from './Middlewares/auth'
 import infoRouter from './Routes/infoRouter'
-import { initialDatabaseConnection } from './MySql/connection'
+import { initialDatabaseConnection } from './Mongo/connection'
 
 //create db tables
 initialDatabaseConnection().then(() => {

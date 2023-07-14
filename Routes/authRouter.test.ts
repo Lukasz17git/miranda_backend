@@ -11,7 +11,7 @@ describe('Auth Register Endpoint: /register', () => {
          password: "123123"
       })
       expect(res.status).toEqual(200)
-      expect(res.body).toHaveProperty('id')
+      expect(res.body).toHaveProperty('_id')
       expect(res.body).toHaveProperty('password')
    })
    it('should return an error if any of the fields is missing', async () => {
@@ -31,7 +31,7 @@ describe('Auth Login Endpoint: /login', () => {
          password: "123123"
       })
       expect(res.status).toEqual(200)
-      expect(res.body).toHaveProperty('id')
+      expect(res.body).toHaveProperty('_id')
    })
 
    it('should return an error if any of the fields is missing', async () => {

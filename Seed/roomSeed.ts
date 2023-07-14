@@ -7,9 +7,9 @@ const getRandomRoomType = () => {
    return roomTypes[randomIndex];
 };
 
-export const generateRandomRoom = () => {
-   const randomRoom: RoomType = {
-      id: faker.string.uuid(),
+export const generateRandomRoom = (withId = false) => {
+   const randomRoom: Omit<RoomType, '_id'> & { _id?: string } = {
+      ...withId && { _id: faker.string.uuid() },
       name: faker.lorem.word(),
       type: getRandomRoomType(),
       number: faker.number.int({ min: 0, max: 999 }),

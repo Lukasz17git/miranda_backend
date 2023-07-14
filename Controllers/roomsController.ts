@@ -2,8 +2,10 @@ import { Request, Response } from "express";
 import handleError from "../Errors/handleError";
 import { v4 as nanoid } from 'uuid'
 import { RoomType } from "../Models/rooms";
-import { createRoomInDB, deleteRoomInDB, getRoomByIdInDB, getRoomsFromDB, updateRoomInDB } from "../MySql/rooms";
+// import { createRoomInDB, deleteRoomInDB, getRoomByIdInDB, getRoomsFromDB, updateRoomInDB } from "../MySql/rooms";
 import { validateCreateRoom, validateUpdateRoom } from "../Validators/rooms";
+import { createRoomInDB, deleteRoomInDB, getRoomByIdInDB, getRoomsFromDB, updateRoomInDB } from "../Mongo/rooms";
+
 
 export const getRoomsController = async (req: Request, res: Response) => {
    try {
@@ -29,10 +31,10 @@ export const createRoomsController = async (req: Request, res: Response) => {
    try {
       const data = req.body
       validateCreateRoom(data)
-      const newRoom: RoomType = { ...data, id: nanoid() }
-      await createRoomInDB(newRoom)
-      res.send(newRoom)
+      const room = await createRoomInDB(data)
+      res.send(room)
    } catch (error) {
+      console.log('error', error)
       const handledError = handleError(error)
       return res.status(handledError.status).send(error)
    }

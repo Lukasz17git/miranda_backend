@@ -4,7 +4,7 @@ export type UserStatusType = 'active' | 'inactive' | 'vacation'
 export type UsersJobType = 'manager' | 'receptionist' | 'roomsService'
 
 export type UserType = {
-   id: string,
+   _id: string,
    name: string,
    lastname: string,
    email: string,
