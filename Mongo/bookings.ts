@@ -42,8 +42,8 @@ export const createBookingInDB = async (roomID: string, booking: Omit<BookingTyp
    return newBooking
 }
 
-export const updateBookingInDB = async (roomID: string, bookingID: string, booking: Partial<BookingType>) => {
-   const query = { _id: roomID, 'bookings._id': bookingID }
+export const updateBookingInDB = async (bookingID: string, booking: Partial<BookingType>) => {
+   const query = { 'bookings._id': bookingID }
    const projection = { bookings: { $elemMatch: { '_id': bookingID } } }
    const arrayFilterName = 'array'
    const arrayFilters = [{ [`${arrayFilterName}._id`]: bookingID }]

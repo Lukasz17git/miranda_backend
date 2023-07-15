@@ -37,8 +37,6 @@ export const createBookingsController = async (req: Request, res: Response) => {
       validateCreateBooking(data)
       // const newBooking: BookingType = { id: nanoid(), ...data }
       const { roomId, ...newBooking } = data
-      console.log('roomId', roomId)
-      console.log('newBooking', newBooking)
       const booking = await createBookingInDB(roomId, newBooking)
       res.send(booking)
    } catch (error) {
@@ -52,8 +50,8 @@ export const updateBookingsController = async (req: Request, res: Response) => {
       const data = req.body as Partial<BookingType>
       const bookingID = req.params.id
       validateUpdateBooking(data)
-      const { roomId, ...booking } = data
-      await updateBookingInDB(roomId || '', bookingID, booking)
+      console.log('booking', data)
+      await updateBookingInDB(bookingID, data)
       res.sendStatus(200)
    } catch (error) {
       const handledError = handleError(error)
