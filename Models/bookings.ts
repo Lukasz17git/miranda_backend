@@ -1,6 +1,6 @@
 
 export type BookingType = {
-   id: string,
+   _id: string,
    roomId: string,
    orderDate: string,
    inDate: string,

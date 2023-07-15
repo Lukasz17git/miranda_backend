@@ -5,7 +5,7 @@ import { RoomType } from "../Models/rooms";
 
 const endpoint = '/rooms'
 
-const room: Omit<RoomType, 'id'> = {
+const room: Omit<RoomType, '_id'> = {
    name: "Deluxe Room",
    type: "double",
    number: 101,
@@ -56,10 +56,10 @@ describe('get all rooms', () => {
 describe('get room by id', () => {
    it('should retrieve the room if the user is authenticated and the id exists', async () => {
       const authCookie = await createAuthTestingSessionCookie()
-      const roomId = (await request(app).post(endpoint).set('Cookie', authCookie).send(room)).body.id
+      const roomId = (await request(app).post(endpoint).set('Cookie', authCookie).send(room)).body._id
       const res = await request(app).get(`${endpoint}/${roomId}`).set('Cookie', authCookie)
       expect(res.status).toEqual(200)
-      expect(res.body).toMatchObject({ id: roomId, ...room })
+      expect(res.body).toMatchObject({ _id: roomId, ...room })
 
    })
    it('should throw an error if the provided id doesnt exist', async () => {
@@ -70,7 +70,7 @@ describe('get room by id', () => {
    })
    it('shoud throw an error if there user is not authenticated', async () => {
       const authCookie = await createAuthTestingSessionCookie()
-      const roomId = (await request(app).post(endpoint).set('Cookie', authCookie).send(room)).body.id
+      const roomId = (await request(app).post(endpoint).set('Cookie', authCookie).send(room)).body._id
       const res = await request(app).get(`${endpoint}/${roomId}`)
       expect(res.status).toEqual(400)
    })
@@ -83,7 +83,7 @@ describe('create new room', () => {
       const authCookie = await createAuthTestingSessionCookie()
       const res = await request(app).post(endpoint).set('Cookie', authCookie).send(room)
       expect(res.status).toEqual(200)
-      expect(res.body).toHaveProperty('id')
+      expect(res.body).toHaveProperty('_id')
    })
 
    it('should throw an error if the provided data is invalid', async () => {
@@ -101,7 +101,7 @@ describe('create new room', () => {
 describe('update room by id', () => {
    it('should update the room if the user is authenticated, the id exists and the provided data is valid', async () => {
       const authCookie = await createAuthTestingSessionCookie()
-      const roomId = (await request(app).post(endpoint).set('Cookie', authCookie).send(room)).body.id
+      const roomId = (await request(app).post(endpoint).set('Cookie', authCookie).send(room)).body._id
       const res = await request(app).put(`${endpoint}/${roomId}`).set('Cookie', authCookie).send({
          description: "new description for the room"
       })
@@ -119,7 +119,7 @@ describe('update room by id', () => {
    })
    it('shoud throw an error if there user is not authenticated', async () => {
       const authCookie = await createAuthTestingSessionCookie()
-      const roomId = (await request(app).post(endpoint).set('Cookie', authCookie).send(room)).body.id
+      const roomId = (await request(app).post(endpoint).set('Cookie', authCookie).send(room)).body._id
       const res = await request(app).put(`${endpoint}/${roomId}`).send({
          description: "new description for the room"
       })
@@ -132,7 +132,7 @@ describe('update room by id', () => {
 describe('delete room by id', () => {
    it('should delete the room if the user is authenticated and the id exists', async () => {
       const authCookie = await createAuthTestingSessionCookie()
-      const roomId = (await request(app).post(endpoint).set('Cookie', authCookie).send(room)).body.id
+      const roomId = (await request(app).post(endpoint).set('Cookie', authCookie).send(room)).body._id
       const res = await request(app).delete(`${endpoint}/${roomId}`).set('Cookie', authCookie)
       expect(res.status).toEqual(200)
    })
@@ -143,7 +143,7 @@ describe('delete room by id', () => {
    })
    it('shoud throw an error if there user is not authenticated', async () => {
       const authCookie = await createAuthTestingSessionCookie()
-      const roomId = (await request(app).post(endpoint).set('Cookie', authCookie).send(room)).body.id
+      const roomId = (await request(app).post(endpoint).set('Cookie', authCookie).send(room)).body._id
       const res = await request(app).delete(`${endpoint}/${roomId}`)
       expect(res.status).toEqual(400)
    })

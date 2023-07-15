@@ -7,9 +7,9 @@ const getRandomSubject = () => {
    return subjects[randomIndex];
 }
 
-export const generateRandomReview = () => {
-   const randomReview: ReviewType = {
-      id: faker.string.uuid(),
+export const generateRandomReview = (withId = false) => {
+   const randomReview: Omit<ReviewType, '_id'> & { _id?: string } = {
+      ...withId && { _id: faker.string.uuid() },
       sentAt: faker.date.past().toISOString(),
       viewed: faker.datatype.boolean(),
       archived: faker.datatype.boolean(),

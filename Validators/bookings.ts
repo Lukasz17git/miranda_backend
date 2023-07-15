@@ -3,7 +3,7 @@ import { BookingType } from '../Models/bookings';
 import validateData, { GeneralValidatorType } from '../Utils/validator';
 
 const bookingCreateSchema = Joi.object<Omit<BookingType, 'id'>>({
-   roomId: Joi.number().required(),
+   roomId: Joi.string().required(),
    orderDate:  Joi.string().isoDate().required(),
    inDate:  Joi.string().isoDate().required(),
    outDate:  Joi.string().isoDate().required(),
@@ -14,7 +14,7 @@ const bookingCreateSchema = Joi.object<Omit<BookingType, 'id'>>({
 });
 
 const bookingUpdateSchema = Joi.object<Omit<BookingType, 'id'>>({
-   roomId: Joi.number(),
+   roomId: Joi.string(),
    orderDate:  Joi.string().isoDate(),
    inDate:  Joi.string().isoDate(),
    outDate:  Joi.string().isoDate(),

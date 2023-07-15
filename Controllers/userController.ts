@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
 import handleError from "../Errors/handleError";
 import { UserType } from "../Models/users";
-import { deleteUserInDB, updateUserInDB } from "../MySql/users";
+// import { deleteUserInDB, updateUserInDB } from "../MySql/users";
 import { validateUpdateUser } from "../Validators/users";
+import { deleteUserInDB, updateUserInDB } from "../Mongo/users";
 
 
 export const updateUserController = async (req: Request, res: Response) => {

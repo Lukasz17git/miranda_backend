@@ -3,7 +3,7 @@ import { BookingType } from "./bookings"
 export type RoomsTypes = 'single' | 'double' | 'superior' | 'suite'
 
 export type RoomType = {
-   id: string,
+   _id: string,
    name: string,
    type: RoomsTypes,
    number: number,

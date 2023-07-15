@@ -4,7 +4,8 @@ import { comparePasswords, createJWTandCookie, removeAllCookies } from '../Utils
 import handleError from '../Errors/handleError'
 import { UserType } from '../Models/users'
 import { v4 as nanoid } from 'uuid'
-import { createUserInDB, getUserByEmailInDB } from '../MySql/users'
+// import { createUserInDB, getUserByEmailInDB } from '../MySql/users'
+import { createUserInDB, getUserByEmailInDB } from '../Mongo/users'
 import { validateLoginUser, validateRegisterUser } from '../Validators/users'
 
 export const authCookieName = 'auth'
@@ -14,9 +15,9 @@ export const registerController = async (req: Request, res: Response) => {
       const data = req.body
       validateRegisterUser(data)
       const encryptedPassword = await bcrypt.hash(data.password, 10)
-      const newUser: UserType = { ...data, id: nanoid(), password: encryptedPassword }
-      await createUserInDB(newUser)
-      const { jwtToken, cookieOptions } = createJWTandCookie(newUser.id)
+      const newUser = await createUserInDB({ ...data, password: encryptedPassword })
+      const userID = newUser.toObject()._id.toString()
+      const { jwtToken, cookieOptions } = createJWTandCookie(userID)
       removeAllCookies(res)
       res.cookie(authCookieName, jwtToken, cookieOptions).send(newUser)
 
@@ -32,7 +33,7 @@ export const loginController = async (req: Request, res: Response) => {
       validateLoginUser(data)
       const dbUser = await getUserByEmailInDB(data.email)
       await comparePasswords(data.password, dbUser.password)
-      const { jwtToken, cookieOptions } = createJWTandCookie(dbUser.id)
+      const { jwtToken, cookieOptions } = createJWTandCookie(dbUser._id.toString())
       removeAllCookies(res)
       res.cookie(authCookieName, jwtToken, cookieOptions).send(dbUser)
 
