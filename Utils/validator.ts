@@ -5,6 +5,7 @@ export type GeneralValidatorType<T> = (p: Partial<T>) => unknown
 
 const validateData = (data: unknown, location: ErrorLocation, schema: Joi.ObjectSchema) => {
    const { error } = schema.validate(data)
+   console.log('error', error)
    if (error) throw generateError(location, 'fields', 'invalid')
 }
 

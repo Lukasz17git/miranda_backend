@@ -24,4 +24,4 @@ const seedDatabase = () => {
 
 }
 
-export default seedDatabase
+// export default seedDatabase

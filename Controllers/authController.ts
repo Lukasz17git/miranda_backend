@@ -5,7 +5,7 @@ import handleError from '../Errors/handleError'
 import { UserType } from '../Models/users'
 import { v4 as nanoid } from 'uuid'
 // import { createUserInDB, getUserByEmailInDB } from '../MySql/users'
-import { createUserInDB, getUserByEmailInDB } from '../Mongo/users'
+import { createUserInDB, getUserByEmailInDB, getUserFromDB } from '../Mongo/users'
 import { validateLoginUser, validateRegisterUser } from '../Validators/users'
 
 export const authCookieName = 'auth'
@@ -35,10 +35,24 @@ export const loginController = async (req: Request, res: Response) => {
       await comparePasswords(data.password, dbUser.password)
       const { jwtToken, cookieOptions } = createJWTandCookie(dbUser._id.toString())
       removeAllCookies(res)
-      res.cookie(authCookieName, jwtToken, cookieOptions).send(dbUser)
+      const userWithoutPassword: UserType = { ...dbUser.toObject(), password: '' }
+      res.cookie(authCookieName, jwtToken, cookieOptions).send(userWithoutPassword)
 
    } catch (error) {
       // maybe add some kind of max attempts
+      const handledError = handleError(error)
+      return res.status(handledError.status).send(error)
+   }
+}
+
+export const getAdminController = async (req: Request, res: Response) => {
+   try {
+      const managerId = req.userID!
+      console.log('managerId', managerId)
+      const user = await getUserFromDB(managerId)
+      const userWithoutPassword: UserType = { ...user.toObject(), password: '' }
+      res.send(userWithoutPassword)
+   } catch (error) {
       const handledError = handleError(error)
       return res.status(handledError.status).send(error)
    }

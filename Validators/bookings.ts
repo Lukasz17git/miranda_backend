@@ -2,26 +2,28 @@ import Joi from 'joi'
 import { BookingType } from '../Models/bookings';
 import validateData, { GeneralValidatorType } from '../Utils/validator';
 
-const bookingCreateSchema = Joi.object<Omit<BookingType, 'id'>>({
-   roomId: Joi.string().required(),
-   orderDate:  Joi.string().isoDate().required(),
-   inDate:  Joi.string().isoDate().required(),
-   outDate:  Joi.string().isoDate().required(),
-   specialRequest: Joi.string().required(),
-   guestName: Joi.string().required(),
-   guestLastname: Joi.string().required(),
-   guestProfileUrl: Joi.string().required()
+const guestSchema = Joi.object<BookingType['guest']>({
+   name: Joi.string().allow(''),
+   lastname: Joi.string().allow(''),
+   profileUrl: Joi.string().allow(''),
+})
+
+const bookingCreateSchema = Joi.object<Omit<BookingType, '_id'>>({
+   roomId: Joi.string().allow('').required(),
+   orderDate: Joi.string().allow('').isoDate().required(),
+   inDate: Joi.string().allow('').isoDate().required(),
+   outDate: Joi.string().allow('').isoDate().required(),
+   specialRequest: Joi.string().allow('').required(),
+   guest: guestSchema.required()
 });
 
-const bookingUpdateSchema = Joi.object<Omit<BookingType, 'id'>>({
-   roomId: Joi.string(),
-   orderDate:  Joi.string().isoDate(),
-   inDate:  Joi.string().isoDate(),
-   outDate:  Joi.string().isoDate(),
-   specialRequest: Joi.string(),
-   guestName: Joi.string(),
-   guestLastname: Joi.string(),
-   guestProfileUrl: Joi.string()
+const bookingUpdateSchema = Joi.object<Omit<BookingType, '_id'>>({
+   roomId: Joi.string().allow(''),
+   orderDate: Joi.string().allow('').isoDate(),
+   inDate: Joi.string().allow('').isoDate(),
+   outDate: Joi.string().allow('').isoDate(),
+   specialRequest: Joi.string().allow(''),
+   guest: guestSchema
 });
 
 type BookingValidator = GeneralValidatorType<BookingType>

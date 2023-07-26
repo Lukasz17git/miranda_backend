@@ -15,10 +15,12 @@ export const generateRandomReview = (withId = false) => {
       archived: faker.datatype.boolean(),
       subject: getRandomSubject(),
       comment: faker.lorem.paragraph(),
-      personName: faker.person.firstName(),
-      personLastname: faker.person.lastName(),
-      personEmail: faker.internet.email(),
-      personPhone: faker.phone.number(),
+      person: {
+         name: faker.person.firstName(),
+         lastname: faker.person.lastName(),
+         email: faker.internet.email(),
+         phone: faker.phone.number(),
+      }
    }
    return randomReview
 }

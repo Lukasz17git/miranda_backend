@@ -9,6 +9,7 @@ import bookingsRouter from './Routes/bookingsRouter'
 import authorizationMiddleware from './Middlewares/auth'
 import infoRouter from './Routes/infoRouter'
 import { initialDatabaseConnection } from './Mongo/connection'
+import { getAdminController } from './Controllers/authController'
 
 //create db tables
 initialDatabaseConnection().then(() => {
@@ -35,7 +36,8 @@ app.use('/info', infoRouter)
 // PROTECTED ROUTES
 app.use(authorizationMiddleware)
 
-app.use('/user', usersRouter)
+app.get('/authorization', getAdminController)
+app.use('/users', usersRouter)
 app.use('/rooms', roomsRouter)
 app.use('/reviews', reviewsRouter)
 app.use('/bookings', bookingsRouter)

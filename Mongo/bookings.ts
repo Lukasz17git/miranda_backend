@@ -5,13 +5,15 @@ import { BookingType } from "../Models/bookings"
 import generateMongoArrayFilterUpdateObject from "../Utils/mongoArrayFilter"
 
 export const bookingSchema = new Schema({
-   orderDate: { type: String },
-   inDate: { type: String },
-   outDate: { type: String },
-   specialRequest: { type: String },
-   guestName: { type: String },
-   guestLastname: { type: String },
-   guestProfileUrl: { type: String },
+   orderDate: { type: String, default: '' },
+   inDate: { type: String, default: '' },
+   outDate: { type: String, default: '' },
+   specialRequest: { type: String, default: '' },
+   guest: {
+      name: { type: String, default: '' },
+      lastname: { type: String, default: '' },
+      profileUrl: { type: String, default: '' },
+   }
 })
 
 export const getBookingsFromDB = async () => {

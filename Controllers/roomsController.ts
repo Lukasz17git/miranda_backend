@@ -31,6 +31,7 @@ export const createRoomsController = async (req: Request, res: Response) => {
    try {
       const data = req.body
       validateCreateRoom(data)
+      console.log('data', data)
       const room = await createRoomInDB(data)
       res.send(room)
    } catch (error) {

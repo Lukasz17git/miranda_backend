@@ -4,15 +4,17 @@ import { ReviewType } from "../Models/reviews";
 
 
 const reviewSchema = new Schema({
-   sentAt: { type: String },
-   viewed: { type: Boolean },
-   archived: { type: Boolean },
-   subject: { type: String },
-   comment: { type: String },
-   personName: { type: String },
-   personLastname: { type: String },
-   personEmail: { type: String },
-   personPhone: { type: String },
+   sentAt: { type: String, default: '' },
+   viewed: { type: Boolean, default: false },
+   archived: { type: Boolean, default: false },
+   subject: { type: String, default: '' },
+   comment: { type: String, default: '' },
+   person: {
+      name: { type: String, default: '' },
+      lastname: { type: String, default: '' },
+      email: { type: String, default: '' },
+      phone: { type: String, default: '' },
+   }
 })
 
 const Review = model('Review', reviewSchema)

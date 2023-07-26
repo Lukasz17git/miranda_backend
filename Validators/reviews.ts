@@ -4,28 +4,29 @@ import validateData, { GeneralValidatorType } from '../Utils/validator';
 
 const reviewsSubjects: ReviewsSubjects[] = ['Subject A', 'Subject B', 'Subject C']
 
-const reviewCreateSchema = Joi.object<Omit<ReviewType, 'id'>>({
-   sentAt:  Joi.string().isoDate().required(),
+const personSchema = Joi.object<ReviewType['person']>({
+   name: Joi.string().allow(''),
+   lastname: Joi.string().allow(''),
+   email: Joi.string().allow('').email(),
+   phone: Joi.string().allow(''),
+})
+
+const reviewCreateSchema = Joi.object<Omit<ReviewType, '_id'>>({
+   sentAt: Joi.string().allow('').isoDate().required(),
    viewed: Joi.boolean().required(),
    archived: Joi.boolean().required(),
-   subject: Joi.string().valid(...reviewsSubjects).required(),
-   comment: Joi.string().required(),
-   personName: Joi.string().required(),
-   personLastname: Joi.string().required(),
-   personEmail: Joi.string().email().required(),
-   personPhone: Joi.string().required(),
+   subject: Joi.string().allow('').valid(...reviewsSubjects).required(),
+   comment: Joi.string().allow('').required(),
+   person: personSchema
 });
 
-const reviewUpdateSchema = Joi.object<Omit<ReviewType, 'id'>>({
-   sentAt:  Joi.string().isoDate(),
+const reviewUpdateSchema = Joi.object<Omit<ReviewType, '_id'>>({
+   sentAt: Joi.string().allow('').isoDate(),
    viewed: Joi.boolean(),
    archived: Joi.boolean(),
-   subject: Joi.string().valid(...reviewsSubjects),
-   comment: Joi.string(),
-   personName: Joi.string(),
-   personLastname: Joi.string(),
-   personEmail: Joi.string().email(),
-   personPhone: Joi.string(),
+   subject: Joi.string().allow('').valid(...reviewsSubjects),
+   comment: Joi.string().allow(''),
+   person: personSchema
 });
 
 type ReviewValidator = GeneralValidatorType<ReviewType>

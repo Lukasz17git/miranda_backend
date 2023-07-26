@@ -2,7 +2,7 @@ import Joi from 'joi'
 import { RoomType, RoomsTypes } from '../Models/rooms';
 import validateData, { GeneralValidatorType } from '../Utils/validator';
 
-const amenitiesSchema = Joi.object({
+const amenitiesSchema = Joi.object<RoomType['amenities']>({
    airConditioner: Joi.boolean().required(),
    wifi: Joi.boolean().required(),
    breakfast: Joi.boolean().required(),
@@ -21,29 +21,29 @@ const amenitiesSchema = Joi.object({
 
 const roomsTypes: RoomsTypes[] = ['single', 'double', 'suite', 'superior']
 
-const roomCreateSchema = Joi.object<Omit<RoomType, 'id'>>({
-   name: Joi.string().required(),
-   type: Joi.string().valid(...roomsTypes).required(),
-   number: Joi.number().required(),
+const roomCreateSchema = Joi.object<Omit<RoomType, '_id'>>({
+   name: Joi.string().allow('').required(),
+   type: Joi.string().allow('').valid(...roomsTypes).required(),
+   number: Joi.string().allow('').required(),
    price: Joi.number().required(),
    discount: Joi.number().required(),
-   description: Joi.string().required(),
-   cancellationPolicy: Joi.string().required(),
+   description: Joi.string().allow('').required(),
+   cancellationPolicy: Joi.string().allow('').required(),
    amenities: amenitiesSchema.required(),
-   images: Joi.array().items(Joi.string()).required(),
+   images: Joi.array().items(Joi.string().allow('')).required(),
    bookings: Joi.array().items(Joi.object()).optional(),
 });
 
 const roomUpdateSchema = Joi.object<Omit<RoomType, 'id'>>({
-   name: Joi.string(),
-   type: Joi.string().valid(...roomsTypes),
-   number: Joi.number(),
+   name: Joi.string().allow(''),
+   type: Joi.string().allow('').valid(...roomsTypes),
+   number: Joi.string().allow(''),
    price: Joi.number(),
    discount: Joi.number(),
-   description: Joi.string(),
-   cancellationPolicy: Joi.string(),
+   description: Joi.string().allow(''),
+   cancellationPolicy: Joi.string().allow(''),
    amenities: amenitiesSchema,
-   images: Joi.array().items(Joi.string()),
+   images: Joi.array().items(Joi.string().allow('')),
    bookings: Joi.array().items(Joi.object()),
 });
 
