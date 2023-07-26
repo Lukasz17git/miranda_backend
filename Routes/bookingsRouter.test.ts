@@ -2,6 +2,7 @@ import request from 'supertest'
 import app from '../app'
 import { createAuthTestingSessionCookie } from '../Tests/utils'
 import { BookingType } from '../Models/bookings'
+import { ObjectId } from 'mongoose'
 
 const endpoint = '/bookings'
 
@@ -11,9 +12,11 @@ const booking: Omit<BookingType, '_id'> = {
    inDate: new Date(1651564800000).toISOString(),
    outDate: new Date(1654156800000).toISOString(),
    specialRequest: "Non-smoking room",
-   guestName: "John",
-   guestLastname: "Doe",
-   guestProfileUrl: "https://example.com/profile/johndoe",
+   guest: {
+      name: "John",
+      lastname: "Doe",
+      profileUrl: "https://example.com/profile/johndoe",
+   }
 };
 
 

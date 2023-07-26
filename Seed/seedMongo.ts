@@ -20,11 +20,11 @@ const seedDatabase = async () => {
    const roomsPromise = rooms.map(room => createRoomInDB(room))
    const roomsInDb = await Promise.all(roomsPromise)
    
-   const roomIds = roomsInDb.map(room => room._id)
+   const roomIds = roomsInDb.map(room => room._id.toString())
    const bookings = Array(30).fill(0).map(_ => generateRandomBooking(roomIds))
    bookings.forEach(bookingWithRoom => {
-      const { roomId, ...booking } = bookingWithRoom
-      createBookingInDB(roomId, booking)
+      // const { roomId, ...booking } = bookingWithRoom
+      createBookingInDB(bookingWithRoom.roomId, bookingWithRoom)
    })
 
 }

@@ -2,7 +2,7 @@ import { ObjectId } from "mongoose"
 
 export type BookingType = {
    _id: string,
-   roomId: ObjectId,
+   roomId: string,
    orderDate: string,
    inDate: string,
    outDate: string,

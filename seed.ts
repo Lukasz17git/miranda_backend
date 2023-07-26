@@ -1,4 +1,4 @@
-import seedDatabase from "./Seed/seedMySql"
+import seedDatabase from "./Seed/seedMongo"
 import app from "./app"
 import dotenv from 'dotenv'
 

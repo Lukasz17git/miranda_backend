@@ -2,12 +2,12 @@ import { faker } from '@faker-js/faker';
 import { BookingType } from '../Models/bookings';
 import { ObjectId } from 'mongoose';
 
-const getRandomRoomId = (roomIds: ObjectId[]) => {
+const getRandomRoomId = (roomIds: string[]) => {
    const randomIndex = Math.floor(Math.random() * roomIds.length);
    return roomIds[randomIndex];
 };
 
-export const generateRandomBooking = (roomIds: ObjectId[]) => {
+export const generateRandomBooking = (roomIds: string[]) => {
    const randomBooking: Omit<BookingType, '_id'> & { _id?: string } = {
       roomId: getRandomRoomId(roomIds),
       orderDate: faker.date.past().toISOString(),

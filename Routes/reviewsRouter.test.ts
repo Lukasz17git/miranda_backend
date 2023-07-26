@@ -11,10 +11,12 @@ const review: Omit<ReviewType, '_id'> = {
    archived: false,
    subject: "Subject A",
    comment: "This is a sample comment.",
-   personName: "Alice",
-   personLastname: "Smith",
-   personEmail: "alice@example.com",
-   personPhone: "+1234567890",
+   person: {
+      name: "Alice",
+      lastname: "Smith",
+      email: "alice@example.com",
+      phone: "+1234567890",
+   }
 };
 
 
