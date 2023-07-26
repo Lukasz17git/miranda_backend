@@ -17,6 +17,7 @@ const userLoginSchema = Joi.object<Omit<UserType, '_id'>>({
    password: Joi.string().required(),
 })
 
+
 const userCreateSchema = Joi.object<Omit<UserType, '_id'>>({
    name: Joi.string().required(),
    lastname: Joi.string().allow(''),
