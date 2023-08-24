@@ -20,7 +20,8 @@ initialDatabaseConnection().then(() => {
 
 //INITIALIZING THE APP
 const app: Express = express()
-app.use(cors({ origin: 'http://localhost:5173', credentials: true })) //
+const dashboardUri = ['http://localhost:5173', 'http://miranda-dashboard-app.s3-website-eu-west-1.amazonaws.com']
+app.use(cors({ origin: dashboardUri, credentials: true })) //credentials es para enviar cookies, no se si para Auth headers también
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json({ limit: '50kb' }));
 app.use(cookieParser())
@@ -29,6 +30,7 @@ app.use(cookieParser())
 app.get('/', (_, res: Response) => {
    res.send('Hello, World!');
 });
+
 
 app.use(authRouter)
 app.use('/info', infoRouter)

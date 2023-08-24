@@ -6,11 +6,13 @@
    "scripts": {
       "build": "npm ci && rimraf dist && tsc",
       "build:prod": "npm run build && rimraf node_modules && npm i --omit=dev",
-      "deploy": "npm run build:prod && serverless deploy --force && npm run build",
       "start": "node dist/server.js",
       "dev": "tsx watch server.ts",
       "test": "jest --testTimeout=10000",
-      "seed": "tsx watch seed.ts"
+      "seed": "tsx watch seed.ts",
+      "lint": "tsc --noEmit -p",
+      "ci": "npm run lint && npm run test && npm run build",
+      "deploy": "npm run build:prod && serverless deploy --force && npm run build"
    },
    "keywords": [],
    "author": "",

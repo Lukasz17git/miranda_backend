@@ -3,7 +3,7 @@ dotenv.config()
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 import generateError from '../Errors/generateError'
-import { Response } from 'express'
+import { CookieOptions, Response } from 'express'
 import { authCookieName } from '../Controllers/authController'
 
 const sessionSecret = process.env.JWT_SECRET_SESSION as string
@@ -12,7 +12,7 @@ export const createJWTandCookie = (userID: string) => {
    const expireTime = 60 * 60 * 24 * 7 //seconds
    const maxAge = expireTime * 1000 //milliseconds
    const jwtToken = jwt.sign({ userID }, sessionSecret, { expiresIn: expireTime })
-   const cookieOptions = { httpOnly: true, maxAge }
+   const cookieOptions: CookieOptions = { httpOnly: true, maxAge, sameSite: 'none', secure: true }
    const expireDate = Date.now() + maxAge
    return { jwtToken, cookieOptions, expireDate }
 }
@@ -33,5 +33,5 @@ export const verifyJWT = (token: string) => new Promise((resolve, reject) => {
 })
 
 export const removeAllCookies = (res: Response) => {
-   res.cookie(authCookieName, '', { maxAge: 0 })
+   res.cookie(authCookieName, '', { maxAge: 0, sameSite: 'lax' })
 }
